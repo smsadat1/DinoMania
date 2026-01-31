@@ -1,15 +1,18 @@
 #include "dinomania/dinomania.hpp"
-#include "dinomania/gamesystem.hpp"
+#include "dinomania/entity.hpp"
+
+bool playerdead = false;
 
 int main(int argc, char const *argv[])
 {
     sf::RenderWindow window(sf::VideoMode({WINDOW_SIZE_X, WINDOW_SIZE_Y, BITS_PER_PIXEL}), "DinoMania");
     window.setVerticalSyncEnabled(true);
 
-    sf::Event event;
-    sf::Time delta_time;
-    sf::Clock delta__time_clock;
+    // DinoMania game state manager
 
+    Dino dino;
+    sf::Event event;
+    
     while (window.isOpen())
     {
         while (window.pollEvent(event))
@@ -17,10 +20,9 @@ int main(int argc, char const *argv[])
             if(event.type == sf::Event::Closed)
                 window.close();
         }
-        
-        delta_time = delta__time_clock.restart();
 
         window.clear();
+        window.draw(dino.dm_dino_sprite);
         window.display();
     }
     

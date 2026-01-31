@@ -1,6 +1,7 @@
 #ifndef DINOMANIA_HPP
 #define DINOMANIA_HPP
 
+#include <array>
 #include <iostream>
 #include <optional>
 
@@ -12,5 +13,6 @@
 #define GROUND_OFFSET (WINDOW_SIZE_Y - 150.0f)
 #define GAME_SPEED 8.00f
 
+extern bool playerdead;
 
 #endif

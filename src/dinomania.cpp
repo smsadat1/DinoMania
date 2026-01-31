@@ -1,5 +1,6 @@
 #include "dinomania/dinomania.hpp"
 #include "dinomania/entity.hpp"
+#include "dinomania/environment.hpp"
 
 bool playerdead = false;
 
@@ -11,6 +12,10 @@ int main(int argc, char const *argv[])
     // DinoMania game state manager
 
     Dino dino;
+    dino.dm_dino_sprite.setPosition(sf::Vector2f(0, GROUND_OFFSET));
+
+    Ground ground;
+
     sf::Event event;
     sf::Time delta_time;
     sf::Clock delta_time_clock;
@@ -23,11 +28,15 @@ int main(int argc, char const *argv[])
                 window.close();
         }
 
+        window.clear();
+        window.setView(window.getDefaultView());
+
         delta_time = delta_time_clock.restart();
         dino.dino_update(delta_time);
+        ground.ground_update();
 
-        window.clear();
         window.draw(dino.dm_dino_sprite);
+        window.draw(ground.ground_sprite);
         window.display();
     }
     

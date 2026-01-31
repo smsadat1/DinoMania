@@ -4,6 +4,8 @@
 #include <array>
 #include <iostream>
 #include <optional>
+#include <random>
+#include <vector>
 
 #include <SFML/Graphics.hpp>
 

@@ -1,5 +1,58 @@
 #include "dinomania.hpp"
 
+class Clouds
+{
+public:
+    std::vector<sf::Sprite> clouds;
+    
+    sf::Time current_time;
+    sf::Texture cloud_tex;
+    std::random_device randomize;
+    std::mt19937 rnd_num{randomize()};
+
+    Clouds()
+    :clouds(), cloud_tex(), current_time(), randomize()
+    {
+        if(!cloud_tex.loadFromFile("../asset/images/Clouds.png"))
+            std::cout << "Failed to load cloud texture\n";
+
+        clouds.reserve(6);
+        clouds.emplace_back(cloud_tex);
+        clouds.back().setPosition(sf::Vector2f(WINDOW_SIZE_X, WINDOW_SIZE_Y/2.00 - 40.0f));
+    }
+
+    void clouds_update(sf::Time& delta_time)
+    {
+        current_time += delta_time;
+
+        if(current_time.asSeconds() > 8.0f)
+        {
+            clouds.emplace_back(cloud_tex);
+            std::uniform_int_distribution<std::mt19937::result_type> dist6(WINDOW_SIZE_Y/2 - 200, WINDOW_SIZE_Y/2 - 50);
+            clouds.back().setPosition(sf::Vector2f(WINDOW_SIZE_X, dist6(rnd_num))); // random Y position
+            current_time = sf::Time::Zero;
+        }
+
+        for (int i = 0; i < clouds.size(); i++)
+        {
+            // TODO: Implement player dead or alive
+            clouds[i].move(sf::Vector2f(-1.0f, 0.0f));
+
+            if(clouds[i].getPosition().x < 0.0f - cloud_tex.getSize().x)
+            {
+                std::vector<sf::Sprite>::iterator clouder_iterator = clouds.begin() + i;
+                clouds.erase(clouder_iterator);
+            }
+        }
+    }
+
+    void clouds_draw(sf::RenderWindow& window)
+    {
+        for(auto& cloud : clouds)
+            window.draw(cloud);
+    }
+};
+
 class Ground
 {
 public:

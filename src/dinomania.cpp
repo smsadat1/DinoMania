@@ -16,7 +16,10 @@ int main(int argc, char const *argv[])
     dino.dm_dino_sprite.setPosition(sf::Vector2f(0, GROUND_OFFSET));
 
     FPS fps;
+
+    Clouds clouds;
     Ground ground;
+    Obstacles obstacles;
 
     sf::Event event;
     sf::Time delta_time;
@@ -36,11 +39,17 @@ int main(int argc, char const *argv[])
         delta_time = delta_time_clock.restart();
 
         dino.dino_update(delta_time);
-        ground.ground_update();
+
         fps.fps_log_update();
+
+        clouds.clouds_update(delta_time);
+        ground.ground_update();
+        obstacles.obstacle_update(delta_time);
 
         window.draw(dino.dm_dino_sprite);
         window.draw(fps.fps.dm_text);
+        clouds.clouds_draw(window);
+        obstacles.obstacle_draw(window);
         window.draw(ground.ground_sprite);
         window.display();
     }

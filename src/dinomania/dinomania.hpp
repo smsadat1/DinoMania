@@ -1,0 +1,16 @@
+#ifndef DINOMANIA_HPP
+#define DINOMANIA_HPP
+
+#include <iostream>
+#include <optional>
+
+#include <SFML/Graphics.hpp>
+
+#define WINDOW_SIZE_X 1000
+#define WINDOW_SIZE_Y 500
+#define BITS_PER_PIXEL 24U
+#define GROUND_OFFSET (WINDOW_SIZE_Y - 150.0f)
+#define GAME_SPEED 8.00f
+
+
+#endif

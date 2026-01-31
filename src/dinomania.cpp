@@ -12,6 +12,8 @@ int main(int argc, char const *argv[])
 
     Dino dino;
     sf::Event event;
+    sf::Time delta_time;
+    sf::Clock delta_time_clock;
     
     while (window.isOpen())
     {
@@ -20,6 +22,9 @@ int main(int argc, char const *argv[])
             if(event.type == sf::Event::Closed)
                 window.close();
         }
+
+        delta_time = delta_time_clock.restart();
+        dino.dino_update(delta_time);
 
         window.clear();
         window.draw(dino.dm_dino_sprite);

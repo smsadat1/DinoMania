@@ -4,7 +4,7 @@ class Dino
 {
 public:
 
-    std::array<sf::IntRect, 6> frames;
+    std::array<sf::IntRect, 6> dm_dino_frames;
 
     sf::FloatRect dm_dino_bound;
     sf::Sprite dm_dino_sprite;
@@ -13,7 +13,10 @@ public:
     sf::Vector2f dm_dino_pos = {0.0f, 0.0f};
     sf::Vector2f dm_dino_motion = {0.0f, 0.0f};
 
-    int animation_counter = 0;
+    int dm_dino_animation_counter = 0;
+    const int dm_dino_frames_per_sprite = 6; // bigger is slower
+    int dm_dino_frame_count = 0;
+    int dm_dino_current_frame = 0;
 
     Dino()
     {
@@ -21,10 +24,10 @@ public:
             std::cout << "Failed to load texture\n";
 
         dm_dino_sprite.setTexture(dm_dino_tex);
-        for (int i = 0; i < frames.size(); i++)
-            frames[i] = sf::IntRect(i*90, 0, 90, 95);
+        for (int i = 0; i < dm_dino_frames.size(); i++)
+            dm_dino_frames[i] = sf::IntRect(i*90, 0, 90, 95);
 
-        dm_dino_sprite.setTextureRect(frames[0]);
+        dm_dino_sprite.setTextureRect(dm_dino_frames[0]);
         dm_dino_pos = dm_dino_sprite.getPosition();
         std::cout << "Dinosaur pos: (" << dm_dino_pos.x << "," << dm_dino_pos.y << ")" << '\n'; 
     }
@@ -40,20 +43,19 @@ public:
 
     void dino_walk()
     {
-        for(int i = 0; i < frames.size()-3; i++)
-            if(animation_counter == (i+1)*3) dm_dino_sprite.setTextureRect(frames[i]);
-
-        if(animation_counter >= (frames.size() - 2)*3) animation_counter = 0;
-        animation_counter++;
+        dm_dino_frame_count = dm_dino_frames.size() - 3;
+        dm_dino_current_frame = dm_dino_animation_counter / dm_dino_frames_per_sprite;
+        dm_dino_current_frame %= dm_dino_frame_count;
+        dm_dino_sprite.setTextureRect(dm_dino_frames[dm_dino_current_frame]);
+        dm_dino_animation_counter++;
     }
 
     void dino_reset()
     {
         dm_dino_motion.y = 0;
         dm_dino_sprite.setPosition(sf::Vector2f(dm_dino_sprite.getPosition().x, GROUND_OFFSET));
-        dm_dino_sprite.setTextureRect(frames[0]);
+        dm_dino_sprite.setTextureRect(dm_dino_frames[0]);
     }
-
 };
 
 class Obstacle
@@ -90,9 +92,9 @@ public:
 
         if(obstacle1.loadFromFile("../asset/images/Cactus1.png"))
             std::cout << "Loaded cacuts1\n";
-        if(obstacle1.loadFromFile("../asset/images/Cactus2.png"))
+        if(obstacle2.loadFromFile("../asset/images/Cactus2.png"))
             std::cout << "Loaded cacuts2\n";
-        if(obstacle1.loadFromFile("../asset/images/Cactus3.png"))
+        if(obstacle3.loadFromFile("../asset/images/Cactus3.png"))
             std::cout << "Loaded cacuts3\n";
     }
 
@@ -130,7 +132,6 @@ public:
                 obstacles.erase(obstacleIter);
             }
         }
-        
     }
 
     void obstacle_draw(sf::RenderWindow& window)

@@ -1,4 +1,4 @@
-#include "dinomania.hpp"
+#include "constants.hpp"
 
 struct FPS_t
 {
@@ -50,8 +50,18 @@ public:
     bool dm_check_pressed{false};
 
     Restart()
+    : dm_restart_button_sprite(), dm_restart_button_texture(), dm_mouse_pos(0.0f, 0.0f), 
+    dm_restart_button_sprite_bounds()
     {
+        if(!dm_restart_button_texture.loadFromFile("../asset/images/RestartButton.png"))
+            std::cout << "Failed to load restart button texture\n";
 
+        dm_restart_button_sprite.setTexture(dm_restart_button_texture);
+        dm_restart_button_sprite.setPosition
+        (
+            sf::Vector2f(WINDOW_SIZE_X/2 - dm_restart_button_texture.getSize().x/2, WINDOW_SIZE_Y/2)
+        );
+        dm_restart_button_sprite_bounds = dm_restart_button_sprite.getGlobalBounds();
     }
 };
 

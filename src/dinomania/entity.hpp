@@ -1,4 +1,4 @@
-#include "dinomania.hpp"
+#include "constants.hpp"
 
 class Dino
 {

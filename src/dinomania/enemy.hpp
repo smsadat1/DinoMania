@@ -1,4 +1,4 @@
-#include "dinomania.hpp"
+#include "constants.hpp"
 
 class Bird
 {
@@ -19,7 +19,8 @@ public:
 
     Bird(sf::Texture& dm_bird_tex)
     {
-        dm_bird_sprite.setOrigin(
+        dm_bird_sprite.setOrigin
+        (
             dm_bird_sprite.getGlobalBounds().width / 2.0f,
             dm_bird_sprite.getGlobalBounds().height / 2.0f
         );

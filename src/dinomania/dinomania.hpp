@@ -58,8 +58,8 @@ public:
         
         if
         (
-            dm_playerdead == true && restart.dm_restart_button_sprite_bounds.contains(dm_mouse_pos) &&
-            restart.dm_check_pressed == true    
+            dm_playerdead == true // && restart.dm_restart_button_sprite_bounds.contains(dm_mouse_pos) &&
+            // restart.dm_check_pressed == true    
         )
         {
             // reset: environment
@@ -85,9 +85,23 @@ public:
             score.score_update();
             
             // update: entities
-            dino.dino_update(delta_time);
             birds.birds_update(delta_time);
+            dino.dino_update(delta_time);
+
+            for(auto& bird : birds.birds)
+            {
+                if(dino.dm_dino_bound.intersects(bird.dm_bird_bound))
+                    dm_playerdead = true;
+            }
+
+            for(auto& obstacle : obstacles.obstacles)
+            {
+                if(dino.dm_dino_bound.intersects(obstacle.dm_obstacle_bounds))
+                    dm_playerdead = true;
+            }
+           
         }
+
         fps.fps_log_update();
     }
 

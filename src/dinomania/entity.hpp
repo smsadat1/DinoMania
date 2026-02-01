@@ -1,5 +1,8 @@
 #include "constants.hpp"
 
+class Bird;       // forward declare
+class Obstacle;   // forward declare
+
 class Dino
 {
 public:
@@ -9,7 +12,7 @@ public:
     sf::FloatRect dm_dino_bound;
     sf::Sprite dm_dino_sprite;
     sf::Texture dm_dino_tex;
-    sf::Time time_tracker;
+    sf::Time dm_dino_time_tracker;
     sf::Vector2f dm_dino_pos = {0.0f, 0.0f};
     sf::Vector2f dm_dino_motion = {0.0f, 0.0f};
 
@@ -37,8 +40,44 @@ public:
         dm_dino_pos = dm_dino_sprite.getPosition();
         dm_dino_bound = dm_dino_sprite.getGlobalBounds();
         dm_dino_bound.height -= 15.0f, dm_dino_bound.width += 15.0f;
-        time_tracker += deltatime;
-        dino_walk();
+        dm_dino_time_tracker += deltatime;
+
+        
+        if(!dm_playerdead)
+        {
+            dino_walk();
+
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) == true && dm_dino_pos.y >= WINDOW_SIZE_Y - 150.0f)
+            {
+                dm_dino_animation_counter = 0;
+                dm_dino_motion.y = -20.0f;
+                dm_dino_sprite.setTextureRect(dm_dino_frames[1]);
+            }
+
+             if(dm_dino_pos.y < WINDOW_SIZE_Y - 150.f)
+            {
+                dm_dino_motion.y += 1.f; dm_dino_sprite.setTextureRect(dm_dino_frames[1]);
+            }
+
+            if(dm_dino_pos.y > WINDOW_SIZE_Y - 150.f)
+            {
+                dm_dino_sprite.setPosition(sf::Vector2f(dm_dino_sprite.getPosition().x, WINDOW_SIZE_Y - 150.f));
+                dm_dino_motion.y = 0.f;
+            }
+            dm_dino_sprite.move(dm_dino_motion);
+        }
+        
+        if(dm_playerdead)
+        {
+            dm_dino_motion = {0.f, 0.f};   // STOP
+            dm_dino_animation_counter = 0;
+            dm_dino_sprite.setTextureRect(dm_dino_frames[3]);
+
+            if(dm_dino_time_tracker.asMilliseconds() > 170.f)
+            {
+                dm_dino_time_tracker = sf::Time::Zero;
+            }
+        }
     }
 
     void dino_walk()
@@ -52,6 +91,7 @@ public:
 
     void dino_reset()
     {
+        dm_playerdead = false;
         dm_dino_motion.y = 0;
         dm_dino_sprite.setPosition(sf::Vector2f(dm_dino_sprite.getPosition().x, GROUND_OFFSET));
         dm_dino_sprite.setTextureRect(dm_dino_frames[0]);

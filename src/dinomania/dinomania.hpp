@@ -13,7 +13,8 @@
 #define WINDOW_SIZE_Y 500
 #define BITS_PER_PIXEL 24U
 #define GROUND_OFFSET (WINDOW_SIZE_Y - 150.0f)
-#define GAME_SPEED 8.00f
+
+extern int dm_game_speed;
 
 extern bool playerdead;
 

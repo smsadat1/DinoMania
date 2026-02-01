@@ -86,7 +86,7 @@ public:
             birds[i].dm_bird_pos = birds[i].dm_bird_sprite.getPosition();
             birds[i].dm_bird_bound = birds[i].dm_bird_sprite.getGlobalBounds();
             birds[i].dm_bird_bound.height -= 15.0f, birds[i].dm_bird_bound.width += 15.0f;
-            birds[i].dm_bird_sprite.move(-1.0f * GAME_SPEED, 0.0f);
+            birds[i].dm_bird_sprite.move(-1.0f * dm_game_speed, 0.0f);
 
             birds[i].bird_fly();
 

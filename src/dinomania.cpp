@@ -2,9 +2,10 @@
 #include "dinomania/enemy.hpp"
 #include "dinomania/entity.hpp"
 #include "dinomania/environment.hpp"
-#include "dinomania/fpslog.hpp"
+#include "dinomania/system.hpp"
 
 bool playerdead = false;
+int dm_game_speed = 8;
 
 int main(int argc, char const *argv[])
 {
@@ -12,14 +13,13 @@ int main(int argc, char const *argv[])
     window.setVerticalSyncEnabled(true);
     std::srand(std::time(nullptr));     // increase randomness
 
-    // DinoMania game state manager
-
     Dino dino;
     dino.dm_dino_sprite.setPosition(sf::Vector2f(0, GROUND_OFFSET));
 
     Birds birds;
 
     FPS fps;
+    Score score;
 
     Clouds clouds;
     Ground ground;
@@ -42,20 +42,28 @@ int main(int argc, char const *argv[])
 
         delta_time = delta_time_clock.restart();
 
+        // update: system
         dino.dino_update(delta_time);
         birds.birds_update(delta_time);
 
+        // update: system
         fps.fps_log_update();
+        score.score_update();
 
+        // update: environment
         clouds.clouds_update(delta_time);
         ground.ground_update();
         obstacles.obstacle_update(delta_time);
 
+        // draw: entities
         window.draw(dino.dm_dino_sprite);
         birds.birds_draw(window);
 
+        // draw: system
         window.draw(fps.fps.dm_text);
+        window.draw(score.score.dm_score_text);
 
+        // draw: environment
         clouds.clouds_draw(window);
         obstacles.obstacle_draw(window);
         window.draw(ground.ground_sprite);

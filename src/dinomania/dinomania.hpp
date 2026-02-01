@@ -33,6 +33,9 @@ private:
     Ground ground;
     Obstacles obstacles;
 
+    // control
+    sf::Vector2f dm_mouse_pos;
+
 public:
 
     DM_Game_State(): 
@@ -43,20 +46,49 @@ public:
         dino.dm_dino_sprite.setPosition(sf::Vector2f(0, GROUND_OFFSET));
     }
 
+    void dm_set_mouse_pos(sf::Vector2i& mouse_pos)
+    {
+        dm_mouse_pos.x = mouse_pos.x;
+        dm_mouse_pos.y = mouse_pos.y;
+    }
+
     void dm_game_state_update(sf::Time& delta_time)
     {
-        // update: system
-        dino.dino_update(delta_time);
-        birds.birds_update(delta_time);
+        restart.dm_check_pressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+        
+        if
+        (
+            dm_playerdead == true && restart.dm_restart_button_sprite_bounds.contains(dm_mouse_pos) &&
+            restart.dm_check_pressed == true    
+        )
+        {
+            // reset: environment
+            clouds.clouds_reset();
+            ground.ground_reset();
+            obstacles.obstacle_reset();
 
-        // update: system
+            // reset: system
+            score.score_reset();
+
+            // reset: entities
+            dino.dino_reset();
+            birds.birds_reset();
+        }
+        else 
+        {   
+            // update: environment
+            clouds.clouds_update(delta_time);
+            ground.ground_update();
+            obstacles.obstacle_update(delta_time);
+
+            // update: system
+            score.score_update();
+            
+            // update: entities
+            dino.dino_update(delta_time);
+            birds.birds_update(delta_time);
+        }
         fps.fps_log_update();
-        score.score_update();
-
-        // update: environment
-        clouds.clouds_update(delta_time);
-        ground.ground_update();
-        obstacles.obstacle_update(delta_time);
     }
 
     void dm_game_state_draw(sf::RenderWindow& window)

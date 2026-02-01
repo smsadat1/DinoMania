@@ -51,6 +51,11 @@ public:
         for(auto& cloud : clouds)
             window.draw(cloud);
     }
+
+    void clouds_reset()
+    {
+        clouds.erase(clouds.begin(), clouds.end());
+    }
 };
 
 class Ground

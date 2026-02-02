@@ -1,11 +1,16 @@
 # DinoMania
-This is a dinosaur game
+A clone of Chrome dinosaur game made with C++ SFML
 
 # Setup (Ubuntu 22.04+)
+` $ git clone <repo> `
 ` $ sudo apt-get install libsfml-dev `
+` $ cd <repo-name> `
 
 # Build and Installation
 ```
-$ g++ -c dinomania.c 
-$ g++ dinomania.o -o dinomania -lsfml-graphics -lsfml-window -lsfml-system
+$ mkdir build 
+$ cd build
+$ cmake ..
+$ make -j $(nproc)
+$ ./DinoMania
 ```

@@ -1,14 +1,6 @@
 #ifndef DINOMANIA_HPP
 #define DINOMANIA_HPP
 
-#include <array>
-#include <iostream>
-#include <optional>
-#include <random>
-#include <vector>
-
-#include <SFML/Graphics.hpp>
-
 #include "constants.hpp"
 #include "enemy.hpp"
 #include "entity.hpp"

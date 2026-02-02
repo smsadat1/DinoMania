@@ -1,8 +1,5 @@
 #include "constants.hpp"
 
-class Bird;       // forward declare
-class Obstacle;   // forward declare
-
 class Dino
 {
 public:
@@ -52,6 +49,7 @@ public:
                 dm_dino_animation_counter = 0;
                 dm_dino_motion.y = -20.0f;
                 dm_dino_sprite.setTextureRect(dm_dino_frames[1]);
+                dm_dino_sound_manager.dm_dino_jump_sound.play();
             }
 
              if(dm_dino_pos.y < WINDOW_SIZE_Y - 150.f)
@@ -75,7 +73,13 @@ public:
 
             if(dm_dino_time_tracker.asMilliseconds() > 170.f)
             {
+                dm_dino_sound_manager.dm_dino_die_sound.stop();
+                dm_dino_sound_manager.dm_dino_die_sound.setLoop(false);
                 dm_dino_time_tracker = sf::Time::Zero;
+            }
+            else 
+            {
+                dm_dino_sound_manager.dm_dino_die_sound.play();
             }
         }
     }

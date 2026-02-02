@@ -141,8 +141,7 @@ public:
             {
                 score.dm_scores_inital += 100;
                 dm_game_speed++;
-                
-                // TOOD: Implement sound system
+                dm_dino_sound_manager.dm_dino_point_sound.play();
             }
             score.dm_score_text.setString("Score: " + std::to_string(score.dm_scores));
             score.dm_previous_score_text.setString(std::to_string(score.dm_previous_score));

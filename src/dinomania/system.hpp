@@ -1,4 +1,5 @@
 #include "constants.hpp"
+#include "sound.hpp"
 
 struct FPS_t
 {
@@ -25,17 +26,7 @@ public:
         fps.dm_text.setFillColor(sf::Color(73, 73, 73));
     }
 
-    void fps_log_update()
-    {
-        if(fps.dm_clock.getElapsedTime().asSeconds() >= 1.0f)
-        {
-            fps.dm_fps = fps.dm_frame;
-            fps.dm_frame = 0;
-            fps.dm_clock.restart();
-        }
-        fps.dm_frame++;
-        fps.dm_text.setString("FPS: " + std::to_string(fps.dm_fps));
-    }
+    void fps_log_update();
 };
 
 
@@ -79,7 +70,7 @@ struct Score_t
     short dm_scores_inital;
 };
 
-class Score
+class Score 
 {
 public:
     Score_t score;
@@ -123,37 +114,6 @@ public:
         score.dm_HI_text.setFillColor(sf::Color{75, 75, 75});
     }
 
-    void score_update()
-    {
-        if(!dm_playerdead)
-        {
-
-            score.dm_scores_index++;
-            
-            if(score.dm_scores_index >= 5) 
-            {
-                score.dm_scores_index = 0;
-                score.dm_scores++;
-            }
-            
-            score.dm_scores_diff = score.dm_scores - score.dm_scores_inital;
-            if(score.dm_scores_diff > 100)
-            {
-                score.dm_scores_inital += 100;
-                dm_game_speed++;
-                dm_dino_sound_manager.dm_dino_point_sound.play();
-            }
-            score.dm_score_text.setString("Score: " + std::to_string(score.dm_scores));
-            score.dm_previous_score_text.setString(std::to_string(score.dm_previous_score));
-        }
-    }
-
-    void score_reset()
-    {
-        if(score.dm_scores > score.dm_previous_score) score.dm_previous_score = score.dm_scores;
-
-        score.dm_previous_score_text.setString(std::to_string(score.dm_previous_score));
-        score.dm_scores = 0;
-    }
-
+    void score_update();
+    void score_reset();
 };

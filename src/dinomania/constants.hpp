@@ -10,8 +10,6 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "sound.hpp"
-
 #define WINDOW_SIZE_X 1000
 #define WINDOW_SIZE_Y 500
 #define BITS_PER_PIXEL 24U
@@ -19,7 +17,5 @@
 
 extern int dm_game_speed;
 extern bool dm_playerdead;
-
-DM_Sound_Manager dm_dino_sound_manager;
 
 #endif

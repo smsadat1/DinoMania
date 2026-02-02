@@ -52,7 +52,7 @@ public:
                 dm_dino_sound_manager.dm_dino_jump_sound.play();
             }
 
-             if(dm_dino_pos.y < WINDOW_SIZE_Y - 150.f)
+            if(dm_dino_pos.y < WINDOW_SIZE_Y - 150.f)
             {
                 dm_dino_motion.y += 1.f; dm_dino_sprite.setTextureRect(dm_dino_frames[1]);
             }
@@ -86,11 +86,22 @@ public:
 
     void dino_walk()
     {
-        dm_dino_frame_count = dm_dino_frames.size() - 3;
-        dm_dino_current_frame = dm_dino_animation_counter / dm_dino_frames_per_sprite;
-        dm_dino_current_frame %= dm_dino_frame_count;
-        dm_dino_sprite.setTextureRect(dm_dino_frames[dm_dino_current_frame]);
-        dm_dino_animation_counter++;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) == true)
+        {
+            // down: frame 4 and 5
+            int dm_dino_down_start = 4, dm_dino_down_count = 5;
+            int frame = (dm_dino_animation_counter / dm_dino_frames_per_sprite) % dm_dino_down_count;
+            dm_dino_sprite.setTextureRect(dm_dino_frames[dm_dino_down_start + frame]);
+        }
+        else 
+        {
+            // run: frame 0, 1 and 2
+            dm_dino_frame_count = dm_dino_frames.size() - 3;
+            dm_dino_current_frame = dm_dino_animation_counter / dm_dino_frames_per_sprite;
+            dm_dino_current_frame %= dm_dino_frame_count;
+            dm_dino_sprite.setTextureRect(dm_dino_frames[dm_dino_current_frame]);
+            dm_dino_animation_counter++;
+        }
     }
 
     void dino_reset()

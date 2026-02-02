@@ -35,8 +35,10 @@ public:
 
         for (int i = 0; i < clouds.size(); i++)
         {
-            // TODO: Implement player dead or alive
-            clouds[i].move(sf::Vector2f(-1.0f, 0.0f));
+            if(!dm_playerdead)
+                clouds[i].move(sf::Vector2f(-1.0f, 0.0f));
+            else 
+                clouds[i].move(sf::Vector2f(-0.5f, 0.0f));
 
             if(clouds[i].getPosition().x < 0.0f - cloud_tex.getSize().x)
             {
@@ -79,16 +81,23 @@ public:
 
     void ground_update()
     {
-        if(offset > ground_texture.getSize().x - WINDOW_SIZE_X) offset = 0;
-
-        offset += dm_game_speed;
-        auto r = ground_sprite.getTextureRect();
-
-        std::cout << "Ground offset: " << offset << '\n';
-        ground_sprite.setTextureRect(sf::IntRect(offset, 0, WINDOW_SIZE_X, ground_texture.getSize().y));
-        std::cout << "Ground position: " 
-        << ground_sprite.getPosition().x << "," << ground_sprite.getPosition().y
-        << '\n'; 
+        if(!dm_playerdead)
+        {
+            if(offset > ground_texture.getSize().x - WINDOW_SIZE_X) offset = 0;
+            
+            offset += dm_game_speed;
+            auto r = ground_sprite.getTextureRect();
+            
+            std::cout << "Ground offset: " << offset << '\n';
+            ground_sprite.setTextureRect(sf::IntRect(offset, 0, WINDOW_SIZE_X, ground_texture.getSize().y));
+            std::cout << "Ground position: " 
+            << ground_sprite.getPosition().x << "," << ground_sprite.getPosition().y
+            << '\n'; 
+        }
+        else 
+        {
+            ground_sprite.setTextureRect(sf::IntRect(offset, 0, WINDOW_SIZE_X, ground_texture.getSize().y));
+        }
     }
 
     void ground_reset()
@@ -160,18 +169,26 @@ public:
             spawn_timer = sf::Time::Zero;
         }
 
-        // TODO: Implement player dead/alive
-        for (int i = 0; i < obstacles.size(); i++)
+        if(!dm_playerdead)
         {
-            obstacles[i].dm_obstacle_bounds = obstacles[i].dm_obstacle_sprite.getGlobalBounds();
-            obstacles[i].dm_obstacle_bounds.width -= 10.0f;
-            obstacles[i].dm_obstacle_sprite.move(-1.0f * dm_game_speed, 0.0f);
 
-            if(obstacles[i].dm_obstacle_sprite.getPosition().x < -150.f)
+            for (int i = 0; i < obstacles.size(); i++)
             {
-                std::vector<Obstacle>::iterator obstacleIter = obstacles.begin() + i;
-                obstacles.erase(obstacleIter);
+                obstacles[i].dm_obstacle_bounds = obstacles[i].dm_obstacle_sprite.getGlobalBounds();
+                obstacles[i].dm_obstacle_bounds.width -= 10.0f;
+                obstacles[i].dm_obstacle_sprite.move(-1.0f * dm_game_speed, 0.0f);
+                
+                if(obstacles[i].dm_obstacle_sprite.getPosition().x < -150.f)
+                {
+                    std::vector<Obstacle>::iterator obstacleIter = obstacles.begin() + i;
+                    obstacles.erase(obstacleIter);
+                }
             }
+        }
+        else 
+        {
+            for(auto& obstacle : obstacles)
+                obstacle.dm_obstacle_sprite.move(0.0f, 0.0f);
         }
     }
 

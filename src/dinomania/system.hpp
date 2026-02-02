@@ -125,26 +125,28 @@ public:
 
     void score_update()
     {
-        // TODO: Implement player dead or alive
-        score.dm_scores_index++;
-
-        if(score.dm_scores_index >= 5) 
+        if(!dm_playerdead)
         {
-            score.dm_scores_index = 0;
-            score.dm_scores++;
-        }
 
-        score.dm_scores_diff = score.dm_scores - score.dm_scores_inital;
-        if(score.dm_scores_diff > 100)
-        {
-            score.dm_scores_inital += 100;
-            dm_game_speed++;
+            score.dm_scores_index++;
             
-            // TOOD: Implement sound system
+            if(score.dm_scores_index >= 5) 
+            {
+                score.dm_scores_index = 0;
+                score.dm_scores++;
+            }
+            
+            score.dm_scores_diff = score.dm_scores - score.dm_scores_inital;
+            if(score.dm_scores_diff > 100)
+            {
+                score.dm_scores_inital += 100;
+                dm_game_speed++;
+                
+                // TOOD: Implement sound system
+            }
+            score.dm_score_text.setString("Score: " + std::to_string(score.dm_scores));
+            score.dm_previous_score_text.setString(std::to_string(score.dm_previous_score));
         }
-
-        score.dm_score_text.setString("Score: " + std::to_string(score.dm_scores));
-        score.dm_previous_score_text.setString(std::to_string(score.dm_previous_score));
     }
 
     void score_reset()

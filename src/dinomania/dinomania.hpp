@@ -58,8 +58,8 @@ public:
         
         if
         (
-            dm_playerdead == true // && restart.dm_restart_button_sprite_bounds.contains(dm_mouse_pos) &&
-            // restart.dm_check_pressed == true    
+            dm_playerdead == true && restart.dm_restart_button_sprite_bounds.contains(dm_mouse_pos) &&
+            restart.dm_check_pressed == true    
         )
         {
             // reset: environment
@@ -107,6 +107,10 @@ public:
 
     void dm_game_state_draw(sf::RenderWindow& window)
     {
+
+        if(dm_playerdead)
+            window.draw(restart.dm_restart_button_sprite);
+
         // draw: entities
         window.draw(dino.dm_dino_sprite);
         birds.birds_draw(window);

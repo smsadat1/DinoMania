@@ -9,7 +9,7 @@ if(WIN32)
     message(STATUS "Building for Windows")
 elseif(UNIX)
     message(STATUS "Building for Linux (Unix)")
-endif
+endif()
 
 if(WIN32)
     add_definitions(-DSFML_STATIC)          # for static SFML on Windows

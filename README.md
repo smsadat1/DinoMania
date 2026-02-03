@@ -31,3 +31,8 @@ DinoMania.exe
 ```
 If you use static library
 ` cmake .. -G "Visual Studio 17 2022" -A x64 -DSFML_STATIC=ON `
+
+## Game Preview
+
+![Dino Die Image](./asset/screenshots/dinodie.png)
+![Dino Crouch Image](./asset/screenshots/dinorun.png)
